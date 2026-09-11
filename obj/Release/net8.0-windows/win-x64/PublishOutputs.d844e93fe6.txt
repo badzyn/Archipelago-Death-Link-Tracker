@@ -1,0 +1,2 @@
+C:\Users\filip\Documents\GitHub\Archipelago-Death-Link-Tracker\bin\Release\net8.0-windows\win-x64\publish\DEATHTRACKERARCHIPELAGO.pdb
+C:\Users\filip\Documents\GitHub\Archipelago-Death-Link-Tracker\bin\Release\net8.0-windows\win-x64\publish\DEATHTRACKERARCHIPELAGO.exe
