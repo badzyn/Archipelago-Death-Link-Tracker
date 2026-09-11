@@ -654,7 +654,8 @@ namespace DEATHTRACKERARCHIPELAGO
 
             foreach (var tag in tags.EnumerateArray())
             {
-                if (tag.GetString() == "DeathLink")
+                if (tag.ValueKind == JsonValueKind.String &&
+                    tag.GetString() == "DeathLink")
                 {
                     deathLink = true;
                     break;
@@ -664,10 +665,28 @@ namespace DEATHTRACKERARCHIPELAGO
             if (!deathLink)
                 return;
 
-            var data = packet.GetProperty("data");
+            if (!packet.TryGetProperty("data", out var data) ||
+                data.ValueKind != JsonValueKind.Object)
+                return;
 
-            string player = data.GetProperty("source").GetString() ?? "Unknown";
-            string cause = data.GetProperty("cause").GetString() ?? "Died.";
+            string player = "Unknown";
+
+            if (data.TryGetProperty("source", out var sourceElement) &&
+                sourceElement.ValueKind == JsonValueKind.String)
+            {
+                player = sourceElement.GetString() ?? "Unknown";
+            }
+
+            string cause = "Died.";
+
+            if (data.TryGetProperty("cause", out var causeElement) &&
+                causeElement.ValueKind == JsonValueKind.String)
+            {
+                string? receivedCause = causeElement.GetString();
+
+                if (!string.IsNullOrWhiteSpace(receivedCause))
+                    cause = receivedCause;
+            }
 
             totalDeaths++;
 
@@ -689,6 +708,7 @@ namespace DEATHTRACKERARCHIPELAGO
                 history.RemoveAt(100);
 
             BeginInvoke(UpdateUI);
+
             _ = SaveDeathTrackerData();
         }
 

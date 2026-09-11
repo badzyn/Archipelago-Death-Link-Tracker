@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("DEATHTRACKERARCHIPELAGO")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+0de5f4385e55954dccb48cec778f13fe66cf4cef")]
 [assembly: System.Reflection.AssemblyProductAttribute("DEATHTRACKERARCHIPELAGO")]
 [assembly: System.Reflection.AssemblyTitleAttribute("DEATHTRACKERARCHIPELAGO")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
