@@ -167,6 +167,23 @@
             lblRankingTitle.Location = new Point(12, 12);
             lblRankingTitle.AutoSize = true;
 
+            //
+            // btnOverlay
+            //
+            btnOverlay = new Button();
+
+            btnOverlay.Location = new Point(300, 15);
+            btnOverlay.Size = new Size(110, 28);
+            btnOverlay.Text = "Overlay";
+
+            btnOverlay.BackColor = Color.FromArgb(60, 60, 65);
+            btnOverlay.ForeColor = Color.White;
+
+            btnOverlay.FlatStyle = FlatStyle.Flat;
+            btnOverlay.FlatAppearance.BorderSize = 0;
+
+            panelBottom.Controls.Add(btnOverlay);
+
             // 
             // lblRankingNick
             // 
@@ -372,5 +389,6 @@
         private ColumnHeader columnDeaths;
 
         private ListBox lbHistory;
+        private Button btnOverlay;
     }
 }

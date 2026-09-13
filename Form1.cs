@@ -31,6 +31,9 @@ namespace DEATHTRACKERARCHIPELAGO
         private readonly HashSet<string> deathLinkPlayers = new();
         private readonly Dictionary<int, string> connectedPlayers = new();
 
+        private OverlayForm? overlay;
+        private bool overlayVisible = false;
+
         //private const string DeathTrackerKey = "DeathTracker_TotalDeaths";
 
         private int totalDeaths = 0;
@@ -41,6 +44,7 @@ namespace DEATHTRACKERARCHIPELAGO
             InitializeComponent();
 
             btnConnect.Click += BtnConnect_Click;
+            btnOverlay.Click += BtnOverlay_Click;
 
             lvRanking.ItemSelectionChanged += (sender, e) =>
             {
@@ -85,9 +89,25 @@ namespace DEATHTRACKERARCHIPELAGO
                 string server = txtServer.Text.Trim();
                 string slot = txtSlot.Text.Trim();
 
-                if (string.IsNullOrWhiteSpace(server) &&
-                    string.IsNullOrWhiteSpace(slot))
-                    return;
+                int overlayX = 20;
+                int overlayY = 20;
+
+                if (File.Exists(settingsFile))
+                {
+                    string[] lines = File.ReadAllLines(settingsFile);
+
+                    if (lines.Length >= 3)
+                        int.TryParse(lines[2], out overlayX);
+
+                    if (lines.Length >= 4)
+                        int.TryParse(lines[3], out overlayY);
+                }
+
+                if (overlay != null)
+                {
+                    overlayX = overlay.Left;
+                    overlayY = overlay.Top;
+                }
 
                 Directory.CreateDirectory(
                     Application.LocalUserAppDataPath);
@@ -97,12 +117,34 @@ namespace DEATHTRACKERARCHIPELAGO
                     new[]
                     {
                 server,
-                slot
+                slot,
+                overlayX.ToString(),
+                overlayY.ToString()
                     });
             }
             catch
             {
+            }
+        }
 
+        private void BtnOverlay_Click(object? sender, EventArgs e)
+        {
+            if (!overlayVisible)
+            {
+                overlay ??= new OverlayForm();
+                overlay.Show();
+                overlayVisible = true;
+                btnOverlay.Text = "Hide Overlay";
+
+                string lastPlayer = history.Count > 0 ? history[0].Player : "N/A";
+                overlay.UpdateOverlay(totalDeaths, lastPlayer);
+            }
+            else
+            {
+                overlay?.Hide();
+
+                overlayVisible = false;
+                btnOverlay.Text = "Overlay";
             }
         }
 
@@ -730,7 +772,7 @@ namespace DEATHTRACKERARCHIPELAGO
             foreach (var death in history)
             {
                 lbHistory.Items.Add(
-                    $"[{death.Time:HH:mm:ss}] {death.Player}");
+                    $"[{death.Time:dd.MM.yyyy HH:mm:ss}] {death.Player} — {death.Cause}");
             }
 
             
@@ -749,6 +791,12 @@ namespace DEATHTRACKERARCHIPELAGO
                     item.ForeColor = Color.Peru;
 
                 lvRanking.Items.Add(item);
+            }
+
+            if (overlayVisible && overlay != null)
+            {
+                string lastPlayer = history.Count > 0 ? history[0].Player : "N/A";
+                overlay.UpdateOverlay(totalDeaths, lastPlayer);
             }
         }
 
@@ -793,6 +841,8 @@ namespace DEATHTRACKERARCHIPELAGO
             socket?.Dispose();
 
             base.OnFormClosing(e);
+
+            overlay?.Close();
         }
     }
 

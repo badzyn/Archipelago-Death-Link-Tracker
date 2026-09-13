@@ -1,20 +1,11 @@
 {
   "runtimeTarget": {
-    "name": ".NETCoreApp,Version=v8.0/win-x64",
+    "name": ".NETCoreApp,Version=v8.0",
     "signature": ""
   },
   "compilationOptions": {},
   "targets": {
-    ".NETCoreApp,Version=v8.0": {},
-    ".NETCoreApp,Version=v8.0/win-x64": {
-      "DEATHTRACKERARCHIPELAGO/1.0.0": {
-        "dependencies": {
-          "Websocket.Client": "5.5.0"
-        },
-        "runtime": {
-          "DEATHTRACKERARCHIPELAGO.dll": {}
-        }
-      },
+    ".NETCoreApp,Version=v8.0": {
       "Microsoft.Extensions.DependencyInjection.Abstractions/10.0.8": {
         "runtime": {
           "lib/net8.0/Microsoft.Extensions.DependencyInjection.Abstractions.dll": {
@@ -75,11 +66,6 @@
     }
   },
   "libraries": {
-    "DEATHTRACKERARCHIPELAGO/1.0.0": {
-      "type": "project",
-      "serviceable": false,
-      "sha512": ""
-    },
     "Microsoft.Extensions.DependencyInjection.Abstractions/10.0.8": {
       "type": "package",
       "serviceable": true,
