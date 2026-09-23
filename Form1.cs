@@ -10,6 +10,7 @@ using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Data;
 
 namespace DEATHTRACKERARCHIPELAGO
 {
@@ -53,6 +54,7 @@ namespace DEATHTRACKERARCHIPELAGO
             };
 
             LoadSettings();
+            Shown += Form1_Shown;
         }
 
         private void LoadSettings()
@@ -127,6 +129,108 @@ namespace DEATHTRACKERARCHIPELAGO
             }
         }
 
+        private async void Form1_Shown(object? sender, EventArgs e)
+        {
+            Shown -= Form1_Shown;
+            await CheckForUpdates();
+        }
+
+        private async Task CheckForUpdates()
+        {
+            GithubRelease? release =
+                await Updater.CheckForUpdateAsync();
+
+            if (release == null)
+                return;
+
+            Version version =
+                Updater.ParseVersion(
+                    release.TagName);
+
+            DialogResult result = MessageBox.Show(
+                $"New version available!\n\n" +
+                $"Current version: {Updater.CurrentVersion}\n" +
+                $"New version: {version}\n\n" +
+                $"Do you want to download and install it now?",
+                "Update available",
+                MessageBoxButtons.YesNo,
+                MessageBoxIcon.Information);
+
+            if (result != DialogResult.Yes)
+                return;
+
+            await DownloadAndInstallUpdate(release);
+        }
+
+        private async Task DownloadAndInstallUpdate(
+    GithubRelease release)
+        {
+            string temporaryExe = Path.Combine(
+                Path.GetTempPath(),
+                $"ArchipelagoDeathLinkTracker_update_{Guid.NewGuid():N}.exe");
+
+            try
+            {
+                Cursor = Cursors.WaitCursor;
+
+                Text = "Archipelago Death Link Tracker - Updating...";
+
+                Progress<int> progress = new Progress<int>(
+                    percentage =>
+                    {
+                        Text =
+                            $"Archipelago Death Link Tracker - " +
+                            $"Downloading update... {percentage}%";
+                    });
+
+                await Updater.DownloadUpdateAsync(
+                    release,
+                    temporaryExe,
+                    progress);
+
+                string? currentExe =
+                    Environment.ProcessPath;
+
+                if (string.IsNullOrWhiteSpace(currentExe))
+                    throw new Exception(
+                        "Cannot determine the path of the current application.");
+
+                DialogResult result = MessageBox.Show(
+                    $"Update {release.TagName} has been downloaded.\n\n" +
+                    "The program will now be restarted.",
+                    "Update ready",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Information);
+
+                if (result == DialogResult.OK)
+                {
+                    Updater.StartReplacement(
+                        temporaryExe);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(
+                    "Error duirng update\n\n" +
+                    ex.Message,
+                    "Update error",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
+
+                try
+                {
+                    if (File.Exists(temporaryExe))
+                        File.Delete(temporaryExe);
+                }
+                catch
+                {
+                }
+            }
+            finally
+            {
+                Cursor = Cursors.Default;
+            }
+        }
         private void BtnOverlay_Click(object? sender, EventArgs e)
         {
             if (!overlayVisible)
