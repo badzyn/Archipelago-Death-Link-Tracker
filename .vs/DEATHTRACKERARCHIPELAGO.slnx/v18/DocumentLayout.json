@@ -3,6 +3,30 @@
   "WorkspaceRootPath": "C:\\Users\\filip\\Documents\\GitHub\\Archipelago-Death-Link-Tracker\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{20DFCFF6-93AA-EA9D-09EB-62F5B4E285DA}|DEATHTRACKERARCHIPELAGO.csproj|c:\\users\\filip\\documents\\github\\archipelago-death-link-tracker\\deathtrackerarchipelago.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
+      "RelativeMoniker": "D:0:0:{20DFCFF6-93AA-EA9D-09EB-62F5B4E285DA}|DEATHTRACKERARCHIPELAGO.csproj|solutionrelative:deathtrackerarchipelago.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{20DFCFF6-93AA-EA9D-09EB-62F5B4E285DA}|DEATHTRACKERARCHIPELAGO.csproj|c:\\users\\filip\\documents\\github\\archipelago-death-link-tracker\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{20DFCFF6-93AA-EA9D-09EB-62F5B4E285DA}|DEATHTRACKERARCHIPELAGO.csproj|solutionrelative:program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{20DFCFF6-93AA-EA9D-09EB-62F5B4E285DA}|DEATHTRACKERARCHIPELAGO.csproj|c:\\users\\filip\\documents\\github\\archipelago-death-link-tracker\\form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{20DFCFF6-93AA-EA9D-09EB-62F5B4E285DA}|DEATHTRACKERARCHIPELAGO.csproj|solutionrelative:form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{20DFCFF6-93AA-EA9D-09EB-62F5B4E285DA}|DEATHTRACKERARCHIPELAGO.csproj|c:\\users\\filip\\documents\\github\\archipelago-death-link-tracker\\form1.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{20DFCFF6-93AA-EA9D-09EB-62F5B4E285DA}|DEATHTRACKERARCHIPELAGO.csproj|solutionrelative:form1.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{20DFCFF6-93AA-EA9D-09EB-62F5B4E285DA}|DEATHTRACKERARCHIPELAGO.csproj|c:\\users\\filip\\documents\\github\\archipelago-death-link-tracker\\updater.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{20DFCFF6-93AA-EA9D-09EB-62F5B4E285DA}|DEATHTRACKERARCHIPELAGO.csproj|solutionrelative:updater.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{20DFCFF6-93AA-EA9D-09EB-62F5B4E285DA}|DEATHTRACKERARCHIPELAGO.csproj|C:\\Users\\filip\\Documents\\GitHub\\Archipelago-Death-Link-Tracker\\form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{20DFCFF6-93AA-EA9D-09EB-62F5B4E285DA}|DEATHTRACKERARCHIPELAGO.csproj|solutionrelative:form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{20DFCFF6-93AA-EA9D-09EB-62F5B4E285DA}|DEATHTRACKERARCHIPELAGO.csproj|c:\\users\\filip\\documents\\github\\archipelago-death-link-tracker\\overlayform.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{20DFCFF6-93AA-EA9D-09EB-62F5B4E285DA}|DEATHTRACKERARCHIPELAGO.csproj|solutionrelative:overlayform.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
@@ -11,20 +35,8 @@
       "RelativeMoniker": "D:0:0:{20DFCFF6-93AA-EA9D-09EB-62F5B4E285DA}|DEATHTRACKERARCHIPELAGO.csproj|solutionrelative:overlayform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{20DFCFF6-93AA-EA9D-09EB-62F5B4E285DA}|DEATHTRACKERARCHIPELAGO.csproj|c:\\users\\filip\\documents\\github\\archipelago-death-link-tracker\\form1.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{20DFCFF6-93AA-EA9D-09EB-62F5B4E285DA}|DEATHTRACKERARCHIPELAGO.csproj|solutionrelative:form1.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{20DFCFF6-93AA-EA9D-09EB-62F5B4E285DA}|DEATHTRACKERARCHIPELAGO.csproj|c:\\users\\filip\\documents\\github\\archipelago-death-link-tracker\\overlayform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "AbsoluteMoniker": "D:0:0:{20DFCFF6-93AA-EA9D-09EB-62F5B4E285DA}|DEATHTRACKERARCHIPELAGO.csproj|C:\\Users\\filip\\Documents\\GitHub\\Archipelago-Death-Link-Tracker\\overlayform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
       "RelativeMoniker": "D:0:0:{20DFCFF6-93AA-EA9D-09EB-62F5B4E285DA}|DEATHTRACKERARCHIPELAGO.csproj|solutionrelative:overlayform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{20DFCFF6-93AA-EA9D-09EB-62F5B4E285DA}|DEATHTRACKERARCHIPELAGO.csproj|c:\\users\\filip\\documents\\github\\archipelago-death-link-tracker\\form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{20DFCFF6-93AA-EA9D-09EB-62F5B4E285DA}|DEATHTRACKERARCHIPELAGO.csproj|solutionrelative:form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{20DFCFF6-93AA-EA9D-09EB-62F5B4E285DA}|DEATHTRACKERARCHIPELAGO.csproj|C:\\Users\\filip\\Documents\\GitHub\\Archipelago-Death-Link-Tracker\\form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
-      "RelativeMoniker": "D:0:0:{20DFCFF6-93AA-EA9D-09EB-62F5B4E285DA}|DEATHTRACKERARCHIPELAGO.csproj|solutionrelative:form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
     }
   ],
   "DocumentGroupContainers": [
@@ -34,15 +46,54 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 1,
+          "SelectedChildIndex": 2,
           "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\Users\\filip\\Documents\\GitHub\\Archipelago-Death-Link-Tracker\\Program.cs",
+              "RelativeDocumentMoniker": "Program.cs",
+              "ToolTip": "C:\\Users\\filip\\Documents\\GitHub\\Archipelago-Death-Link-Tracker\\Program.cs",
+              "RelativeToolTip": "Program.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAC4AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-09-23T15:11:27.194Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "Updater.cs",
+              "DocumentMoniker": "C:\\Users\\filip\\Documents\\GitHub\\Archipelago-Death-Link-Tracker\\Updater.cs",
+              "RelativeDocumentMoniker": "Updater.cs",
+              "ToolTip": "C:\\Users\\filip\\Documents\\GitHub\\Archipelago-Death-Link-Tracker\\Updater.cs",
+              "RelativeToolTip": "Updater.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA8AAABFAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-09-23T15:02:31.588Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "DEATHTRACKERARCHIPELAGO",
+              "DocumentMoniker": "C:\\Users\\filip\\Documents\\GitHub\\Archipelago-Death-Link-Tracker\\DEATHTRACKERARCHIPELAGO.csproj",
+              "RelativeDocumentMoniker": "DEATHTRACKERARCHIPELAGO.csproj",
+              "ToolTip": "C:\\Users\\filip\\Documents\\GitHub\\Archipelago-Death-Link-Tracker\\DEATHTRACKERARCHIPELAGO.csproj",
+              "RelativeToolTip": "DEATHTRACKERARCHIPELAGO.csproj",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA8AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
+              "WhenOpened": "2026-09-23T15:08:01.074Z",
+              "EditorCaption": ""
+            },
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{aa2115a1-9712-457b-9047-dbb71ca2cdd2}"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 6,
               "Title": "OverlayForm.Designer.cs",
               "DocumentMoniker": "C:\\Users\\filip\\Documents\\GitHub\\Archipelago-Death-Link-Tracker\\OverlayForm.Designer.cs",
               "RelativeDocumentMoniker": "OverlayForm.Designer.cs",
@@ -55,7 +106,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 7,
               "Title": "OverlayForm.cs",
               "DocumentMoniker": "C:\\Users\\filip\\Documents\\GitHub\\Archipelago-Death-Link-Tracker\\OverlayForm.cs",
               "RelativeDocumentMoniker": "OverlayForm.cs",
@@ -68,7 +119,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 8,
               "Title": "OverlayForm.cs [Projekt]",
               "DocumentMoniker": "C:\\Users\\filip\\Documents\\GitHub\\Archipelago-Death-Link-Tracker\\OverlayForm.cs",
               "RelativeDocumentMoniker": "OverlayForm.cs",
@@ -80,26 +131,26 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 3,
               "Title": "Form1.Designer.cs",
               "DocumentMoniker": "C:\\Users\\filip\\Documents\\GitHub\\Archipelago-Death-Link-Tracker\\Form1.Designer.cs",
               "RelativeDocumentMoniker": "Form1.Designer.cs",
               "ToolTip": "C:\\Users\\filip\\Documents\\GitHub\\Archipelago-Death-Link-Tracker\\Form1.Designer.cs",
               "RelativeToolTip": "Form1.Designer.cs",
-              "ViewState": "AgIAAK0AAAAAAAAAAAAQwLkAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAAQAAAAAAAAAAAAAwBAAAAAVAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-09-13T13:10:44.393Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 2,
               "Title": "Form1.cs",
               "DocumentMoniker": "C:\\Users\\filip\\Documents\\GitHub\\Archipelago-Death-Link-Tracker\\Form1.cs",
               "RelativeDocumentMoniker": "Form1.cs",
               "ToolTip": "C:\\Users\\filip\\Documents\\GitHub\\Archipelago-Death-Link-Tracker\\Form1.cs",
               "RelativeToolTip": "Form1.cs",
-              "ViewState": "AgIAAHQAAAAAAAAAAAAqwHwAAAARAAAAAAAAAA==",
+              "ViewState": "AgIAACgAAAAAAAAAAAA3wDYAAAAxAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-09-11T19:01:46.819Z",
               "EditorCaption": ""

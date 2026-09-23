@@ -1,8 +1,10 @@
 using System;
-using System.IO;
 using System.Collections.Generic;
+using System.Data;
+using System.IO;
 using System.Linq;
 using System.Net.WebSockets;
+using System.Reflection;
 using System.Reflection.Metadata.Ecma335;
 using System.Security.AccessControl;
 using System.Text;
@@ -10,7 +12,6 @@ using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.Data;
 
 namespace DEATHTRACKERARCHIPELAGO
 {
@@ -43,6 +44,13 @@ namespace DEATHTRACKERARCHIPELAGO
         public Form1()
         {
             InitializeComponent();
+
+            Version? version = Assembly
+                .GetExecutingAssembly()
+                .GetName()
+                .Version;
+
+            Text = $"Archipelago DeathLink Tracker - v{version?.ToString(3)}";
 
             btnConnect.Click += BtnConnect_Click;
             btnOverlay.Click += BtnOverlay_Click;
