@@ -6,6 +6,7 @@ using System.Linq;
 using System.Net.WebSockets;
 using System.Reflection;
 using System.Reflection.Metadata.Ecma335;
+using System.Runtime.CompilerServices;
 using System.Security.AccessControl;
 using System.Text;
 using System.Text.Json;
@@ -32,6 +33,9 @@ namespace DEATHTRACKERARCHIPELAGO
         private readonly Dictionary<string, int> deathCounts = new();
         private readonly HashSet<string> deathLinkPlayers = new();
         private readonly Dictionary<int, string> connectedPlayers = new();
+
+        private string streakPlayer = "";
+        private int streakCounter = 0;
 
         private OverlayForm? overlay;
         private bool overlayVisible = false;
