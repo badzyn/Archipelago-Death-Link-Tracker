@@ -6,6 +6,7 @@ using System.Linq;
 using System.Net.WebSockets;
 using System.Reflection;
 using System.Reflection.Metadata.Ecma335;
+using System.Runtime.CompilerServices;
 using System.Security.AccessControl;
 using System.Text;
 using System.Text.Json;
@@ -25,13 +26,16 @@ namespace DEATHTRACKERARCHIPELAGO
         private readonly CancellationTokenSource shutdown =
             new CancellationTokenSource();
 
-        private readonly string settingsFile =
-            Path.Combine(Application.LocalUserAppDataPath, "settings.txt");
+        private readonly string settingsFile;
 
         private readonly List<DeathRecord> history = new();
         private readonly Dictionary<string, int> deathCounts = new();
         private readonly HashSet<string> deathLinkPlayers = new();
         private readonly Dictionary<int, string> connectedPlayers = new();
+
+        private readonly StreakTracker streaks = new();
+        private readonly SettingsStore settingsStore = new();
+        private TrackerSettings preferences = new();
 
         private OverlayForm? overlay;
         private bool overlayVisible = false;
@@ -39,10 +43,15 @@ namespace DEATHTRACKERARCHIPELAGO
         //private const string DeathTrackerKey = "DeathTracker_TotalDeaths";
 
         private int totalDeaths = 0;
+        private string? roomIdentity;
 
 
-        public Form1()
+        public Form1() : this(new SettingsStore(), null) { }
+
+        public Form1(SettingsStore store, string? legacySettingsPath)
         {
+            settingsStore = store;
+            settingsFile = legacySettingsPath ?? Path.Combine(Application.LocalUserAppDataPath, "settings.txt");
             InitializeComponent();
 
             Version? version = Assembly
@@ -57,84 +66,33 @@ namespace DEATHTRACKERARCHIPELAGO
 
             lvRanking.ItemSelectionChanged += (sender, e) =>
             {
-                if (e.IsSelected)
+                if (e.IsSelected && e.Item != null)
                     e.Item.Selected = false;
             };
 
             LoadSettings();
+            ConfigureLayout();
+            RestoreWindow();
             Shown += Form1_Shown;
         }
 
         private void LoadSettings()
         {
-            try
-            {
-                if (!File.Exists(settingsFile))
-                    return;
-
-                string[] lines = File.ReadAllLines(settingsFile);
-
-                if (lines.Length >= 1 &&
-                    !string.IsNullOrWhiteSpace(lines[0]))
-                {
-                    txtServer.Text = lines[0].Trim();
-                }
-
-                if (lines.Length >= 2 &&
-                    !string.IsNullOrWhiteSpace(lines[1]))
-                {
-                    txtSlot.Text = lines[1].Trim();
-                }
-            }
-            catch
-            {
-                
-            }
+            try { preferences = settingsStore.Load(settingsFile); }
+            catch (Exception ex) { MessageBox.Show($"Could not load settings. Defaults will be used.\n{ex.Message}", "Settings"); }
+            txtServer.Text = preferences.Server;
+            txtSlot.Text = preferences.Slot;
         }
-
         private void SaveSettings()
         {
-            try
-            {
-                string server = txtServer.Text.Trim();
-                string slot = txtSlot.Text.Trim();
-
-                int overlayX = 20;
-                int overlayY = 20;
-
-                if (File.Exists(settingsFile))
-                {
-                    string[] lines = File.ReadAllLines(settingsFile);
-
-                    if (lines.Length >= 3)
-                        int.TryParse(lines[2], out overlayX);
-
-                    if (lines.Length >= 4)
-                        int.TryParse(lines[3], out overlayY);
-                }
-
-                if (overlay != null)
-                {
-                    overlayX = overlay.Left;
-                    overlayY = overlay.Top;
-                }
-
-                Directory.CreateDirectory(
-                    Application.LocalUserAppDataPath);
-
-                File.WriteAllLines(
-                    settingsFile,
-                    new[]
-                    {
-                server,
-                slot,
-                overlayX.ToString(),
-                overlayY.ToString()
-                    });
-            }
-            catch
-            {
-            }
+            preferences.Server = txtServer.Text.Trim(); preferences.Slot = txtSlot.Text.Trim();
+            var bounds = WindowState == FormWindowState.Normal ? Bounds : RestoreBounds;
+            preferences.WindowX = bounds.X; preferences.WindowY = bounds.Y;
+            preferences.WindowWidth = bounds.Width; preferences.WindowHeight = bounds.Height;
+            preferences.HasWindowPosition = true;
+            if (WindowState != FormWindowState.Minimized) preferences.Maximized = WindowState == FormWindowState.Maximized;
+            try { settingsStore.Save(preferences); }
+            catch (Exception ex) { MessageBox.Show($"Could not save settings.\n{ex.Message}", "Settings"); }
         }
 
         private async void Form1_Shown(object? sender, EventArgs e)
@@ -243,20 +201,27 @@ namespace DEATHTRACKERARCHIPELAGO
         {
             if (!overlayVisible)
             {
-                overlay ??= new OverlayForm();
+                if (overlay == null || overlay.IsDisposed)
+                {
+                    overlay = new OverlayForm { ScreenReference = this };
+                    overlay.PositionChanged += point =>
+                    {
+                        preferences.Overlay.Position = OverlayPosition.Custom;
+                        preferences.Overlay.X = point.X; preferences.Overlay.Y = point.Y;
+                        settingsWindow?.RefreshSettings();
+                        SaveSettings();
+                    };
+                    overlay.FormClosed += (_, _) => { overlayVisible = false; btnOverlay.Text = "Overlay"; };
+                }
+                overlay.ApplySettings(preferences.Overlay);
+                overlay.SetEditing(settingsWindow != null && !settingsWindow.IsDisposed);
+                overlay.UpdateOverlay(totalDeaths, history.FirstOrDefault(), streaks.Snapshot(deathCounts, preferences.Overlay.Sort));
                 overlay.Show();
-                overlayVisible = true;
-                btnOverlay.Text = "Hide Overlay";
-
-                string lastPlayer = history.Count > 0 ? history[0].Player : "N/A";
-                overlay.UpdateOverlay(totalDeaths, lastPlayer);
+                overlayVisible = true; btnOverlay.Text = "Hide Overlay";
             }
             else
             {
-                overlay?.Hide();
-
-                overlayVisible = false;
-                btnOverlay.Text = "Overlay";
+                overlay?.Hide(); overlayVisible = false; btnOverlay.Text = "Overlay";
             }
         }
 
@@ -408,6 +373,7 @@ namespace DEATHTRACKERARCHIPELAGO
 
         private void ProcessServerMessage(string json)
         {
+            if (InvokeRequired) { BeginInvoke(() => ProcessServerMessage(json)); return; }
             try
             {
                 using JsonDocument document =
@@ -496,10 +462,12 @@ namespace DEATHTRACKERARCHIPELAGO
                 DeathTrackerState? state =
                     JsonSerializer.Deserialize<DeathTrackerState>(stateJson);
 
-                if (state == null)
+                if (state == null || state.DeathCounts == null || state.History == null || state.TotalDeaths < 0 ||
+                    state.DeathCounts.Any(p => p.Value < 0) || state.History.Any(p => p == null || p.Player == null))
                     return;
 
                 totalDeaths = state.TotalDeaths;
+                streaks.Restore(state);
 
                 deathCounts.Clear();
 
@@ -509,7 +477,8 @@ namespace DEATHTRACKERARCHIPELAGO
                 }
 
                 history.Clear();
-                history.AddRange(state.History);
+                history.AddRange(state.History.Take(100));
+                foreach (string name in connectedPlayers.Values) deathCounts.TryAdd(name, 0);
 
                 deathLinkPlayers.Clear();
 
@@ -538,7 +507,8 @@ namespace DEATHTRACKERARCHIPELAGO
         {
             if (InvokeRequired)
             {
-                BeginInvoke(() => HandleRoomUpdate(packet));
+                var copy = packet.Clone();
+                BeginInvoke(() => HandleRoomUpdate(copy));
                 return;
             }
 
@@ -626,7 +596,10 @@ namespace DEATHTRACKERARCHIPELAGO
             {
                 TotalDeaths = totalDeaths,
                 DeathCounts = new Dictionary<string, int>(deathCounts),
-                History = new List<DeathRecord>(history)
+                History = new List<DeathRecord>(history),
+                ActiveStreakPlayer = streaks.ActivePlayer,
+                ActiveStreak = streaks.ActiveCount,
+                HighestStreaks = new(streaks.Highest)
             };
 
             string stateJson = JsonSerializer.Serialize(state);
@@ -674,6 +647,16 @@ namespace DEATHTRACKERARCHIPELAGO
 
         private void HandleRoomInfo(JsonElement packet)
         {
+            string identity = txtServer.Text.Trim() + ":" +
+                (packet.TryGetProperty("seed_name", out var seed) ? seed.GetString() : "");
+            if (roomIdentity != null && roomIdentity != identity)
+            {
+                totalDeaths = 0;
+                history.Clear(); deathCounts.Clear(); deathLinkPlayers.Clear(); connectedPlayers.Clear();
+                streaks.Restore(new DeathTrackerState());
+                UpdateUI();
+            }
+            roomIdentity = identity;
             Console.WriteLine("Received RoomInfo.");
 
             SendConnect();
@@ -705,7 +688,7 @@ namespace DEATHTRACKERARCHIPELAGO
                 {
             "Tracker",
             "DeathLink"
-            
+
         },
 
                 items_handling = 0,
@@ -734,7 +717,8 @@ namespace DEATHTRACKERARCHIPELAGO
         {
             if (InvokeRequired)
             {
-                BeginInvoke(() => HandleConnected(packet));
+                var copy = packet.Clone();
+                BeginInvoke(() => HandleConnected(copy));
                 return;
             }
 
@@ -755,8 +739,8 @@ namespace DEATHTRACKERARCHIPELAGO
                             : player.GetProperty("name").GetString() ?? "";
 
                     connectedPlayers[slot] = name;
-                    
-                    
+
+
                     if (!deathCounts.ContainsKey(name))
                         deathCounts[name] = 0;
                 }
@@ -843,6 +827,7 @@ namespace DEATHTRACKERARCHIPELAGO
             }
 
             totalDeaths++;
+            streaks.Record(player);
 
             deathLinkPlayers.Add(player);
 
@@ -861,7 +846,7 @@ namespace DEATHTRACKERARCHIPELAGO
             if (history.Count > 100)
                 history.RemoveAt(100);
 
-            BeginInvoke(UpdateUI);
+            UpdateUI();
 
             _ = SaveDeathTrackerData();
         }
@@ -870,7 +855,7 @@ namespace DEATHTRACKERARCHIPELAGO
         {
             lblTotalDeaths.Text = totalDeaths.ToString();
 
-            
+
             lblPlayers.Text = connectedPlayers.Count.ToString();
 
             if (history.Count > 0)
@@ -879,37 +864,26 @@ namespace DEATHTRACKERARCHIPELAGO
             else
                 lblLastDeath.Text = "-";
 
-            
-            lbHistory.Items.Clear();
-            foreach (var death in history)
+
+            lbHistory.SetEntries(history);
+
+            var statistics = streaks.Snapshot(deathCounts, preferences.Overlay.Sort);
+            lblStreak.Text = streaks.ActiveCount > 0 ? $"{streaks.ActivePlayer} x{streaks.ActiveCount}" : "-";
+            lvRanking.BeginUpdate(); lvRanking.Items.Clear();
+            foreach (var player in statistics)
             {
-                lbHistory.Items.Add(
-                    $"[{death.Time:dd.MM.yyyy HH:mm:ss}] {death.Player} — {death.Cause}");
-            }
-
-            
-            lvRanking.Items.Clear();
-
-            foreach (var pair in deathCounts.OrderByDescending(x => x.Value))
-            {
-                ListViewItem item = new(pair.Key);
-                item.SubItems.Add(pair.Value.ToString());
-
-                if (lvRanking.Items.Count == 0)
-                    item.ForeColor = Color.Gold;
-                else if (lvRanking.Items.Count == 1)
-                    item.ForeColor = Color.Silver;
-                else if (lvRanking.Items.Count == 2)
-                    item.ForeColor = Color.Peru;
-
+                var item = new ListViewItem(player.Name + $" x{player.CurrentStreak}") { Tag = player };
+                item.SubItems.Add(player.Deaths.ToString());
+                item.SubItems.Add(player.CurrentStreak.ToString());
+                item.SubItems.Add(player.HighestStreak.ToString());
+                item.SubItems.Add(player.Rank.ToString());
                 lvRanking.Items.Add(item);
             }
-
-            if (overlayVisible && overlay != null)
-            {
-                string lastPlayer = history.Count > 0 ? history[0].Player : "N/A";
-                overlay.UpdateOverlay(totalDeaths, lastPlayer);
-            }
+            lvRanking.EndUpdate();
+            if (lvRanking.IsHandleCreated) lvRanking.BeginInvoke(FitStatisticsColumns);
+            UpdateMainAnimation();
+            if (overlay != null && !overlay.IsDisposed)
+                overlay.UpdateOverlay(totalDeaths, history.FirstOrDefault(), statistics);
         }
 
         private async Task DisconnectFromArchipelago()
@@ -948,6 +922,7 @@ namespace DEATHTRACKERARCHIPELAGO
         protected override void OnFormClosing(
             FormClosingEventArgs e)
         {
+            SaveSettings();
             shutdown.Cancel();
 
             socket?.Dispose();
@@ -967,6 +942,9 @@ namespace DEATHTRACKERARCHIPELAGO
 
     public class DeathTrackerState
     {
+        public string? ActiveStreakPlayer { get; set; }
+        public int ActiveStreak { get; set; }
+        public Dictionary<string, int>? HighestStreaks { get; set; }
         public int TotalDeaths { get; set; }
         public List<DeathRecord> History { get; set; } = new();
         public Dictionary<string, int> DeathCounts { get; set; } = new();
