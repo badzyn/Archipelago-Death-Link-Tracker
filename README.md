@@ -14,7 +14,7 @@ The latest death shows the player and optional timestamp; causes remain in the m
 
 The main statistics selector and overlay statistics share a sort preference. The optional leaderboard always sorts by most deaths. Tied death totals share a competition rank (1, 1, 3).
 
-Streaks count uninterrupted deaths by the same player. A player with no deaths has streak 0; an interrupted player returns to 1. The active player starts at 1 and increments on each consecutive death. Session bests remain even after interruption or after events leave the 100-entry history. Effects progress from orange at x2, brighter orange/red at x3–5, pulsing at x6–9, to a stronger glow and embers at x10+. Disabling animations keeps static glows; disabling flame effects removes them. Timers stop when hidden or no animated streak is present.
+Streaks count uninterrupted deaths by the same player. A player with no deaths has streak 0; an interrupted player returns to 1. The active player starts at 1 and increments on each consecutive death. Session bests remain even after interruption or after events leave the 100-entry history. The top Streak card shows a small flame at x2, a larger orange/red flame at x3–5, smooth flickering at x6–9, and a full flame with rising embers at x10+. Statistics rows remain plain. The overlay uses subtle heat accents beneath names instead of glowing letter outlines. Disabling animations keeps the effect still; disabling flame effects removes it. Timers stop when hidden or no animated streak is present.
 
 ## Presets and persistence
 

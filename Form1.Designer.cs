@@ -29,7 +29,7 @@
             lblLastDeath = new Label();
             cardStreak = new Panel();
             lblStreakTitle = new Label();
-            lblStreak = new Label();
+            lblStreak = new StreakLabel();
             panelRanking = new Panel();
             lblRankingTitle = new Label();
             lblRankingNick = new Label();
@@ -440,7 +440,7 @@
         private Label lblPlayers;
         private Label lblLastDeath;
 
-        private Label lblStreak;
+        private StreakLabel lblStreak;
 
         private Label lblRankingTitle;
         private Label lblRankingNick;

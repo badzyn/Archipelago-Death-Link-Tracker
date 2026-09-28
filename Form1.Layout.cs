@@ -166,7 +166,7 @@ public partial class Form1
         panelTop.Dispose(); panelRanking.Dispose(); panelHistory.Dispose(); panelBottom.Dispose();
         components ??= new System.ComponentModel.Container();
         mainAnimation = new System.Windows.Forms.Timer(components) { Interval = 50 };
-        mainAnimation.Tick += (_, _) => { mainPhase += .18f; lvRanking.Invalidate(); };
+        mainAnimation.Tick += (_, _) => { mainPhase += .18f; lblStreak.UpdateEffect(streaks.ActiveCount, mainPhase, preferences.Overlay); };
         VisibleChanged += (_, _) => UpdateMainAnimation();
         Resize += (_, _) => UpdateMainAnimation();
         ResumeLayout(true);
@@ -239,6 +239,7 @@ public partial class Form1
 
     private void UpdateMainAnimation()
     {
+        lblStreak.UpdateEffect(streaks.ActiveCount, mainPhase, preferences.Overlay);
         if (mainAnimation != null) mainAnimation.Enabled = Visible && WindowState != FormWindowState.Minimized &&
             preferences.Overlay.Animations && preferences.Overlay.FlameEffects && streaks.ActiveCount >= 6;
     }
@@ -251,10 +252,6 @@ public partial class Form1
         var bounds = e.Bounds; bounds.Inflate(-8, 0);
         var state = e.Graphics.Save();
         e.Graphics.SetClip(e.Bounds);
-        if (e.ColumnIndex == 0 && preferences.Overlay.FlameEffects && player.CurrentStreak >= 2)
-        {
-            FlameRenderer.DrawGlow(e.Graphics, lvRanking.Font, e.SubItem!.Text, bounds, player.CurrentStreak, mainPhase, preferences.Overlay.Animations);
-        }
         TextRenderer.DrawText(e.Graphics, e.SubItem!.Text, lvRanking.Font, bounds, Color.FromArgb(232, 233, 239),
             TextFormatFlags.NoPadding | TextFormatFlags.VerticalCenter | TextFormatFlags.EndEllipsis |
             (e.ColumnIndex == 0 ? TextFormatFlags.Left : TextFormatFlags.HorizontalCenter));

@@ -26,8 +26,7 @@ namespace DEATHTRACKERARCHIPELAGO
         private readonly CancellationTokenSource shutdown =
             new CancellationTokenSource();
 
-        private readonly string settingsFile =
-            Path.Combine(Application.LocalUserAppDataPath, "settings.txt");
+        private readonly string settingsFile;
 
         private readonly List<DeathRecord> history = new();
         private readonly Dictionary<string, int> deathCounts = new();
@@ -52,7 +51,7 @@ namespace DEATHTRACKERARCHIPELAGO
         public Form1(SettingsStore store, string? legacySettingsPath)
         {
             settingsStore = store;
-            if (legacySettingsPath != null) settingsFile = legacySettingsPath;
+            settingsFile = legacySettingsPath ?? Path.Combine(Application.LocalUserAppDataPath, "settings.txt");
             InitializeComponent();
 
             Version? version = Assembly

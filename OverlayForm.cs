@@ -245,8 +245,8 @@ public partial class OverlayForm : Form
                 int streak = settings.FlameEffects && settings.ShowStreaks ? run.Streak : 0;
                 if (streak >= 2)
                 {
-                    FlameRenderer.DrawGlow(graphics, font, run.Text, bounds, streak, phase, settings.Animations,
-                        ColorTranslator.FromHtml(streak >= 3 ? settings.StrongFlameColor : settings.SmallFlameColor), format);
+                    FlameRenderer.DrawAccent(graphics, bounds, streak, phase, settings.Animations,
+                        ColorTranslator.FromHtml(streak >= 3 ? settings.StrongFlameColor : settings.SmallFlameColor));
                     if (streak >= 10 && settings.Animations)
                     {
                         using var ember = new SolidBrush(Color.FromArgb(180, ColorTranslator.FromHtml(settings.ParticleColor)));

@@ -21,9 +21,9 @@ public sealed class OverlaySettings
     public bool ShowIcons { get; set; } = false;
     [Category("Overlay Content"), DisplayName("Show Timestamps"), Description("Include the local time of the latest death.")]
     public bool ShowTimestamps { get; set; } = true;
-    [Category("Death Streak Effects"), DisplayName("Flame Effects"), Description("Add increasingly intense orange and red nickname glows at x2, x3, x6 and x10.")]
+    [Category("Death Streak Effects"), DisplayName("Flame Effects"), Description("Show the top Streak card flame and overlay heat accents, increasing at x2, x3, x6 and x10.")]
     public bool FlameEffects { get; set; } = true;
-    [Category("Death Streak Effects"), DisplayName("Animations"), Description("Animate streaks of x6 or more. Disable to use static glows and reduce motion.")]
+    [Category("Death Streak Effects"), DisplayName("Animations"), Description("Animate streaks of x6 or more. Disable to keep the flame and heat accents still.")]
     public bool Animations { get; set; } = true;
     [Category("Overlay Appearance"), DisplayName("Font Size"), Description("Text size in points (8–48).")]
     public float FontSize { get; set; } = 14;
