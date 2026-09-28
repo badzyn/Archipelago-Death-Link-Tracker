@@ -39,7 +39,7 @@
             columnDeaths = new ColumnHeader();
             panelHistory = new Panel();
             lblHistoryTitle = new Label();
-            lbHistory = new ListBox();
+            lbHistory = new DeathHistoryView();
             panelBottom = new Panel();
             btnOverlay = new Button();
             lblStatus = new Label();
@@ -306,7 +306,7 @@
             lbHistory.ForeColor = Color.White;
             lbHistory.Location = new Point(12, 42);
             lbHistory.Name = "lbHistory";
-            lbHistory.SelectionMode = SelectionMode.None;
+            lbHistory.ReadOnly = true;
             lbHistory.Size = new Size(615, 330);
             lbHistory.TabIndex = 1;
             // 
@@ -457,7 +457,7 @@
         private ColumnHeader columnPlayer;
         private ColumnHeader columnDeaths;
 
-        private ListBox lbHistory;
+        private DeathHistoryView lbHistory;
         private Button btnOverlay;
     }
 }

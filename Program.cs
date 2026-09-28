@@ -47,6 +47,7 @@ namespace DEATHTRACKERARCHIPELAGO
 
 
             ApplicationConfiguration.Initialize();
+            Application.SetColorMode(SystemColorMode.Dark);
 
             Application.Run(new Form1());
         }

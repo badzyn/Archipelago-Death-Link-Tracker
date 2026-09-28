@@ -1,6 +1,7 @@
 # Build outputs
 bin/
 obj/
+tests/
 
 # Publish folder
 publish/
